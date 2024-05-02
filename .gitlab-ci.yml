@@ -5,7 +5,7 @@ stages:
   - evaluate-code-pylint
 
 test-code-linters:
-  stage: code-style-tests
+  stage: code-style-linters
   script:
     - echo 'Test code style with linters'
     - pip install tox
