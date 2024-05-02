@@ -1,0 +1,18 @@
+stages:
+  - code-style-tests
+
+image: python:3.9
+
+test-code-linters:
+  stage: code-style-tests
+  script:
+    - echo 'Test code style with linters'
+    - pip install tox
+    - tox -e flake8,isort
+
+test-code-pylint:
+  stage: code-style-tests
+  script:
+    - echo 'Evaluate code style with pylint'
+    - pip install tox
+    - tox -e pylint
