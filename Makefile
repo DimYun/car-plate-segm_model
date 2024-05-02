@@ -13,7 +13,7 @@ train:
 	PYTHONPATH=. python src/train.py configs/config.yaml
 
 lint:
-	PYTHONPATH=. flake8 src
+	PYTHONPATH=. flake8 train.py src
 	PYTHONPATH=. nbstripout notebooks/*.ipynb
-	PYTHONPATH=. black src
-	PYTHONPATH=. isort src
+	PYTHONPATH=. black train.py src
+	PYTHONPATH=. isort train.py src

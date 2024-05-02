@@ -1,6 +1,6 @@
-from typing import Any, Optional
-import segmentation_models_pytorch as smp
+from typing import Optional
 
+import segmentation_models_pytorch as smp
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader, Dataset
 
@@ -11,6 +11,10 @@ from src.dataset_splitter import preprocess_and_split
 
 
 class PlateDM(LightningDataModule):
+    """
+    Datamodule for plate data
+    """
+
     def __init__(self, config: Config):
         super().__init__()
         self._config = config
@@ -19,28 +23,37 @@ class PlateDM(LightningDataModule):
         self.valid_dataset: Optional[Dataset] = None
         self.test_dataset: Optional[Dataset] = None
 
-    def prepare_data(self):
+    def prepare_data(self) -> None:
+        """
+        Prepare the data for Dataset, Datamodule and model
+        :return:
+        """
         if not self.classes:
             (
                 self.train_data,
                 self.validation_data,
                 self.test_data,
-                self.classes
+                self.classes,
             ) = preprocess_and_split(
                 self._config.data_config.data_path,
                 self._config.data_config.valid_size,
-                self._config.data_config.test_size
+                self._config.data_config.test_size,
             )
         else:
             pass
 
-    def setup(self, stage: Optional[str] = None):
+    def setup(self, stage: Optional[str] = None) -> None:
+        """
+        Prepare Datasets
+        :param stage: name of stage in lightning
+        :return:
+        """
         if stage == "fit":
             self.train_dataset = PlateDataset(
                 image_paths=self.train_data["Full_paths"],
                 image_bboxes=self.train_data["Bboxes"],
                 image_labels=self.train_data["Labels"],
-                classes=['plate'],
+                classes=["plate"],
                 transforms=get_transforms(
                     width=self._config.data_config.width,
                     height=self._config.data_config.height,
@@ -48,15 +61,15 @@ class PlateDM(LightningDataModule):
                     augmentations=True,
                     postprocessing=smp.encoders.get_preprocessing_fn(
                         self._config.train_config.encoder_name,
-                        self._config.train_config.encoder_weights
-                    )
-                )
+                        self._config.train_config.encoder_weights,
+                    ),
+                ),
             )
             self.valid_dataset = PlateDataset(
                 image_paths=self.validation_data["Full_paths"],
                 image_bboxes=self.validation_data["Bboxes"],
                 image_labels=self.validation_data["Labels"],
-                classes=['plate'],
+                classes=["plate"],
                 transforms=get_transforms(
                     width=self._config.data_config.width,
                     height=self._config.data_config.height,
@@ -64,16 +77,16 @@ class PlateDM(LightningDataModule):
                     augmentations=False,
                     postprocessing=smp.encoders.get_preprocessing_fn(
                         self._config.train_config.encoder_name,
-                        self._config.train_config.encoder_weights
-                    )
-                )
+                        self._config.train_config.encoder_weights,
+                    ),
+                ),
             )
         elif stage == "test":
             self.test_dataset = PlateDataset(
                 image_paths=self.test_data["Full_paths"],
                 image_bboxes=self.test_data["Bboxes"],
                 image_labels=self.test_data["Labels"],
-                classes=['plate'],
+                classes=["plate"],
                 transforms=get_transforms(
                     width=self._config.data_config.width,
                     height=self._config.data_config.height,
@@ -81,12 +94,16 @@ class PlateDM(LightningDataModule):
                     augmentations=False,
                     postprocessing=smp.encoders.get_preprocessing_fn(
                         self._config.train_config.encoder_name,
-                        self._config.train_config.encoder_weights
-                    )
-                )
+                        self._config.train_config.encoder_weights,
+                    ),
+                ),
             )
 
     def train_dataloader(self) -> DataLoader:
+        """
+        Create a dataloader for train dataset
+        :return:
+        """
         return DataLoader(
             dataset=self.train_dataset,
             batch_size=self._config.data_config.batch_size,
@@ -97,6 +114,10 @@ class PlateDM(LightningDataModule):
         )
 
     def val_dataloader(self) -> DataLoader:
+        """
+        Create a dataloader for validation dataset
+        :return:
+        """
         return DataLoader(
             dataset=self.valid_dataset,
             batch_size=self._config.data_config.batch_size,
@@ -107,6 +128,10 @@ class PlateDM(LightningDataModule):
         )
 
     def test_dataloader(self) -> DataLoader:
+        """
+        Create a dataloader for test dataset
+        :return:
+        """
         return DataLoader(
             dataset=self.test_dataset,
             batch_size=self._config.data_config.batch_size,

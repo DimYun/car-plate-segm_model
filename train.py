@@ -3,11 +3,8 @@ import os
 
 import pytorch_lightning as pl
 from clearml import Task
-from pytorch_lightning.callbacks import (
-    EarlyStopping,
-    LearningRateMonitor,
-    ModelCheckpoint
-)
+from pytorch_lightning.callbacks import LearningRateMonitor, ModelCheckpoint
+
 from configs.config import Config
 from src.constants import EXPERIMENTS_PATH
 from src.datamodule import PlateDM
@@ -48,11 +45,6 @@ def train(config: Config):
         log_every_n_steps=10,
         callbacks=[
             checkpoint_callback,
-            # EarlyStopping(
-            #     monitor=config.monitor_metric,
-            #     patience=4,
-            #     mode=config.monitor_mode,
-            # ),
             LearningRateMonitor(logging_interval="epoch"),
         ],
         # deterministic=True,  TODO: ?
