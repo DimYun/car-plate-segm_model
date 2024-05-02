@@ -1,3 +1,4 @@
+"""Module for initiate model training"""
 import argparse
 import os
 
@@ -11,13 +12,22 @@ from src.datamodule import PlateDM
 from src.lightning_module import PlateModule
 
 
-def arg_parse():
+def arg_parse() -> argparse.Namespace:
+    """
+    Parse command line to extract config file path
+    :return: dictionary structure with config
+    """
     parser = argparse.ArgumentParser()
     parser.add_argument("config_file", type=str, help="config file")
     return parser.parse_args()
 
 
-def train(config: Config):
+def train(config: Config) -> None:
+    """
+    Train the model
+    :param config: python module with config values
+    :return:
+    """
     datamodule = PlateDM(config)
     model = PlateModule(config)
 
@@ -57,5 +67,5 @@ def train(config: Config):
 if __name__ == "__main__":
     args = arg_parse()
     pl.seed_everything(42, workers=True)
-    config = Config.from_yaml(args.config_file)
-    train(config)
+    train_config = Config.from_yaml(args.config_file)
+    train(train_config)

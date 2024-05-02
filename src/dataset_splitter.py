@@ -1,3 +1,5 @@
+"""Module for load and split data"""
+
 import json
 from pathlib import Path
 from typing import Dict, Tuple, Union
@@ -60,7 +62,7 @@ def get_split_data(
 
     # Get classes and encode them
     all_classes = {}
-    with open(json_coco_path, "r") as json_file:
+    with open(json_coco_path, "r", encoding="utf-8") as json_file:
         plate_coco_data = json.load(json_file)
 
         for categories_data in plate_coco_data["categories"]:
@@ -83,7 +85,8 @@ def get_split_data(
             img_path = images_path / image_data["file_name"]
             image_data_dict["Full_paths"][-1] = str(img_path)
         print(
-            f"Total images: {len(image_data_dict['Full_paths'])} == {len(image_data_dict['Id'])}",
+            f"Total images: "
+            f"{len(image_data_dict['Full_paths'])} == {len(image_data_dict['Id'])}",
         )
 
         # Process annotations data

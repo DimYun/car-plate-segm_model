@@ -1,3 +1,5 @@
+"""Module for set augmentations"""
+
 from typing import Callable, Tuple
 
 import albumentations as albu

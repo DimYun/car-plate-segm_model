@@ -1,3 +1,5 @@
+"""Module for store some constants if needed"""
+
 import os
 from pathlib import Path
 

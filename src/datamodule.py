@@ -1,3 +1,5 @@
+"""module for prepare Dataset and Datamodule torch modules with pytorch lighnting"""
+
 from typing import Optional
 
 import segmentation_models_pytorch as smp
@@ -14,11 +16,14 @@ class PlateDM(LightningDataModule):
     """
     Datamodule for plate data
     """
+    classes = {}
+    train_data = {}
+    validation_data = {}
+    test_data = {}
 
     def __init__(self, config: Config):
         super().__init__()
         self._config = config
-        self.classes = {}
         self.train_dataset: Optional[Dataset] = None
         self.valid_dataset: Optional[Dataset] = None
         self.test_dataset: Optional[Dataset] = None

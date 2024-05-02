@@ -1,3 +1,5 @@
+"""Lightning module for create model and set training stages"""
+
 from typing import List
 
 import pytorch_lightning as pl
@@ -18,8 +20,8 @@ class PlateModule(pl.LightningModule):
         super().__init__()
         self._config = config
         self._model = load_object(self._config.train_config.model_type)(
-            encoder_name=self._config.train_config.encoder_name,  # 'mit_b3'
-            encoder_weights=self._config.train_config.encoder_weights,  # 'imagenet',
+            encoder_name=self._config.train_config.encoder_name,
+            encoder_weights=self._config.train_config.encoder_weights,
             classes=1,  # For binary segmentation
             activation=None,  # No activation, as we'll apply sigmoid in the training step
         )
