@@ -43,7 +43,7 @@ def get_split_data(
     test_part: float = 0.1,
 ) -> Tuple[Dict, Dict, Dict, Dict]:
     """
-    Get data from COCO format and form dictionary for MaskRCNN model
+    Get data from COCO format and form dictionary for NN model
     """
 
     images_path = data_path / "single_COCO"
@@ -56,7 +56,7 @@ def get_split_data(
         "Labels": [],
     }
 
-    # Put here images for skip
+    # Put here images for skip, TODO: set in config file
     skip_imgs_path = []
     skip_ids = []
 
