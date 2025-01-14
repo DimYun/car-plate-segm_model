@@ -1,0 +1,48 @@
+project_name: 'hw-02_plate-det'
+experiment_name: 'exp-2'
+monitor_metric: 'val_iou'
+monitor_mode: 'max'
+
+
+cls_losses:
+  -
+    name: 'bce'
+    weight: 0.3
+    loss_fn: 'torch.nn.BCEWithLogitsLoss'
+    loss_kwargs: {}
+
+
+seg_losses:
+  -
+    name: 'dice'
+    weight: 0.7
+    loss_fn: 'segmentation_models_pytorch.losses.DiceLoss'
+    loss_kwargs: {mode: 'binary', from_logits: true}
+
+
+data_config:
+  data_path: 'dataset/'
+  batch_size: 8
+  n_workers: 10
+  valid_size: 0.2
+  test_size: 0.1
+  width: 512
+  height: 512
+
+
+train_config:
+  n_epochs: 100
+  accelerator: 'gpu'
+  device: '0'
+  model_type: 'segmentation_models_pytorch.FPN'
+  encoder_name: 'resnet50'
+  encoder_weights: 'imagenet'
+  optimizer: 'torch.optim.AdamW'
+  optimizer_kwargs:
+    lr: 1e-3
+    weight_decay: 1e-5
+  scheduler: 'torch.optim.lr_scheduler.CosineAnnealingLR'
+  scheduler_kwargs:
+    T_max: 10
+    eta_min: 1e-5
+
