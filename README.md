@@ -1,6 +1,10 @@
 ## Car plates project. Segmentation model (part 1/3)
 
-Neural network segmentation model to select car plate area with number. 
+This is the project for car plate OCR recognition, which include:
+1. Neural network segmentation model for car plate area with number selection (part 1/3)
+2. [Neural network OCR model for plate character recognition (part 2/3)](https://github.com/DimYun/car-plate-ocr_model)
+3. [API service for these two models (part 3/3)](https://github.com/DimYun/car-plate_service)
+4. [Additional exemple how to use API service in Telegram bot](https://github.com/DimYun/car-plate_tg-bot)
 
 
 ### Dataset
@@ -15,7 +19,7 @@ I use several open data from kaggle to compile single dataset:
 * [Car-plate-object-detection](https://www.kaggle.com/datasets/andrewteplov/car-plate-object-detetcion)
 
 On each image was selected box with car plate and for some data was selected box with car (`plate` and `car` classes).
- 
+
 Notes: 
 
 * For some data only clearly visible car plates were selected. 
