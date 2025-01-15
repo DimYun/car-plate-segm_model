@@ -18,13 +18,13 @@ install: venv
 
 .PHONY: train
 train:
-	PYTHONPATH=. python src/train.py configs/config.yaml
-
-.PHONY: formatters
-formatters:
-	PYTHONPATH=. black train.py src
+	PYTHONPATH=. $(PYTHON) src/train.py configs/config.yaml
 
 .PHONY: lint
 lint:
-	PYTHONPATH=. nbstripout notebooks/*.ipynb
-	PYTHONPATH=. tox
+	PYTHONPATH=. $(VENV)/bin/tox -e flake8,pylint
+
+.PHONY: format
+format:
+	PYTHONPATH=. $(VENV)/bin/tox -e formatting
+
