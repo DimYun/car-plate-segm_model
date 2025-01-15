@@ -1,19 +1,30 @@
 .PHONY:*
-install:
-	pip install -r requirements.txt
 
-download_dataset:
-	wget -O dataset.zip "https://www.kaggle.com/datasets/nikitarom/planets-dataset/download?datasetVersionNumber=3"
-	unzip dataset.zip
-	rm dataset.zip
+PYENV=/home/dmitriy/.pyenv/versions/3.9.17/bin/python
+VENV=/opt/python_venvs/car_plate
+PYTHON=$(VENV)/bin/python3
+PIP=$(VENV)/bin/pip
 
-upload_weit:
-	rsync -aP experiments user@test_server:/home/user/experiments
+.PHONY: venv
+venv:
+	$(PYENV) -m venv $(VENV)
+	@echo 'Path to Python executable $(shell pwd)/$(PYTHON)'
 
+.PHONY: install
+install: venv
+	@echo "=== Installing common dependencies ==="
+	$(PIP) install --upgrade pip
+	$(PIP) install -r requirements.txt
+
+.PHONY: train
 train:
 	PYTHONPATH=. python src/train.py configs/config.yaml
 
-lint:
+.PHONY: formatters
+formatters:
 	PYTHONPATH=. black train.py src
+
+.PHONY: lint
+lint:
 	PYTHONPATH=. nbstripout notebooks/*.ipynb
 	PYTHONPATH=. tox
