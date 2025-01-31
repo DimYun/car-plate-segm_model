@@ -4,7 +4,7 @@ This is the project for car plate OCR recognition, which include:
 1. Neural network segmentation model for car plate area with number selection (part 1/3)
 2. [Neural network OCR model for plate character recognition (part 2/3)](https://github.com/DimYun/car-plate-ocr_model)
 3. [API service for these two models (part 3/3)](https://github.com/DimYun/car-plate_service)
-4. [Additional exemple how to use API service in Telegram bot](https://github.com/DimYun/car-plate_tg-bot)
+4. [Additional example how to use API service in Telegram bot](https://github.com/DimYun/car-plate_tg-bot)
 
 
 ### Dataset
