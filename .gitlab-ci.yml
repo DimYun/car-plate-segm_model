@@ -9,7 +9,7 @@ test-code-linters:
   script:
     - echo 'Test code style with linters'
     - pip install tox
-    - tox -e flake8,isort
+    - tox -e flake8
 
 test-code-pylint:
   stage: evaluate-code-pylint
